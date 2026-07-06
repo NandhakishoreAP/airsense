@@ -49,7 +49,7 @@ Exactly 3 cities for the full build: **Chennai, Delhi, Bengaluru**. Do not add m
 | Scheduler | Python `APScheduler` (in-process) | No external cron needed, runs inside the backend process |
 | Frontend | React (Vite) + react-leaflet + Chart.js | Fast dev loop, Leaflet is the standard free mapping library |
 | Map tiles | OpenStreetMap tile server (free, no key) | No cost, no signup needed |
-| Data sources | OpenAQ API, OpenWeatherMap API, OSM Overpass API | All free, no hardware, generous free tiers |
+| Data sources | WAQI/aqicn.org API (primary, live CPCB mirror), OpenWeatherMap API, OSM Overpass API | All free, no hardware, generous free tiers. Note: OpenAQ was evaluated first but found to have stale/inactive Indian CPCB station data (most Indian stations last reported 2016-2018); WAQI mirrors CPCB's 586 Indian stations in real time and is used instead. |
 | Hosting (optional, for judge access) | Render.com or Railway free tier | Only needed if you want judges to access it without your laptop running |
 
 **Nothing in this stack requires your GPU.** Your 4GB NVIDIA card is not a bottleneck for this project — XGBoost and API-based LLMs are both CPU/network bound, not GPU bound. Don't spend time setting up CUDA/GPU acceleration; it's wasted effort here.
@@ -104,7 +104,7 @@ airsense/
 
 ```
 [Scheduler, runs every 60 min]
-   → fetch_aqi.py, fetch_weather.py  → write rows into SQLite (aqi_readings, weather_readings tables)
+   → fetch_aqi.py (WAQI/aqicn.org API), fetch_weather.py  → write rows into SQLite (aqi_readings, weather_readings tables)
    → fetch_vulnerable_sites.py runs once at setup (schools/hospitals don't move) → stored in SQLite (vulnerable_sites table)
 
 [On backend startup, and after each new data refresh]
