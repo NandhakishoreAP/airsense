@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 import config
 import database
+from ml.predict import predict_aqi
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +70,31 @@ def get_aqi_current(city: str = Query(..., description="City name")):
         "data_age_hours": data_age_hours,
         "is_stale": is_stale,
     }
+
+
+@router.get("/api/aqi/forecast")
+def get_aqi_forecast(
+    city: str = Query(..., description="City name"),
+    horizon_hours: int = Query(24, description="Forecast horizon in hours"),
+):
+    """Get an AQI forecast for a city at 24, 48, or 72 hours ahead."""
+    _validate_city(city)
+
+    if horizon_hours not in (24, 48, 72):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid horizon_hours. Must be one of: 24, 48, 72.",
+        )
+
+    result = predict_aqi(city, horizon_hours)
+
+    if result.get("predicted_aqi") is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No AQI data available yet for city '{city}', so forecast cannot be generated.",
+        )
+
+    return result
 
 
 @router.get("/api/weather/current")
