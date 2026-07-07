@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Query, HTTPException
 import logging
+from datetime import datetime, timezone
 
 import config
 import database
@@ -46,6 +47,18 @@ def get_aqi_current(city: str = Query(..., description="City name")):
             detail=f"No AQI readings available yet for city '{city}'",
         )
 
+    recorded_at_raw = row[5]
+    try:
+        recorded_at_dt = datetime.fromisoformat(recorded_at_raw)
+        if recorded_at_dt.tzinfo is None:
+            recorded_at_dt = recorded_at_dt.replace(tzinfo=timezone.utc)
+        recorded_at_utc = recorded_at_dt.astimezone(timezone.utc)
+        data_age_hours = round((datetime.now(timezone.utc) - recorded_at_utc).total_seconds() / 3600, 2)
+    except Exception:
+        data_age_hours = None
+
+    is_stale = data_age_hours is not None and data_age_hours > 6
+
     return {
         "city": row[0],
         "station_name": row[1],
@@ -53,6 +66,8 @@ def get_aqi_current(city: str = Query(..., description="City name")):
         "longitude": row[3],
         "aqi_value": row[4],
         "recorded_at": row[5],
+        "data_age_hours": data_age_hours,
+        "is_stale": is_stale,
     }
 
 
