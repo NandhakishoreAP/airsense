@@ -1,14 +1,23 @@
 from fastapi import APIRouter, Query, HTTPException
 import logging
 from datetime import datetime, timezone
+from pydantic import BaseModel
 
 import config
 import database
 from ml.predict import predict_aqi
+from llm.advisory import generate_health_advisory
+from llm.attribution import generate_source_attribution
+from llm.chat import answer_citizen_question
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+
+class ChatRequest(BaseModel):
+    question: str
+    city: str
 
 
 def _validate_city(city: str):
@@ -167,3 +176,171 @@ def get_vulnerable_sites(city: str = Query(..., description="City name")):
     ]
 
     return sites
+
+
+@router.get("/api/advisory")
+def get_advisory(
+    city: str = Query(..., description="City name"),
+    language: str = Query("English", description="Language of health advisory"),
+):
+    """Generate a health advisory for a city in the specified language."""
+    _validate_city(city)
+
+    conn = database.get_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT aqi_value
+            FROM aqi_readings
+            WHERE city = ?
+            ORDER BY fetched_at DESC
+            LIMIT 1
+            """,
+            (city,),
+        )
+        row = cursor.fetchone()
+    finally:
+        conn.close()
+
+    if row is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No AQI readings available yet for city '{city}' to generate health advisory.",
+        )
+
+    aqi_value = row[0]
+    result = generate_health_advisory(city, aqi_value, language)
+    return result
+
+
+@router.get("/api/attribution")
+def get_attribution(city: str = Query(..., description="City name")):
+    """Reason about the likely pollution sources in a city."""
+    _validate_city(city)
+
+    conn = database.get_connection()
+    try:
+        cursor = conn.cursor()
+        # Fetch the most recent aqi_value
+        cursor.execute(
+            """
+            SELECT aqi_value
+            FROM aqi_readings
+            WHERE city = ?
+            ORDER BY fetched_at DESC
+            LIMIT 1
+            """,
+            (city,),
+        )
+        aqi_row = cursor.fetchone()
+
+        if aqi_row is None:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No AQI readings available yet for city '{city}' to generate source attribution.",
+            )
+        aqi_value = aqi_row[0]
+
+        # Fetch the most recent wind speed and wind direction
+        cursor.execute(
+            """
+            SELECT wind_speed, wind_direction
+            FROM weather_readings
+            WHERE city = ?
+            ORDER BY fetched_at DESC
+            LIMIT 1
+            """,
+            (city,),
+        )
+        weather_row = cursor.fetchone()
+        if weather_row:
+            wind_speed = weather_row[0]
+            wind_direction = weather_row[1]
+        else:
+            wind_speed = None
+            wind_direction = None
+
+        # Fetch count of vulnerable sites and distinct site types
+        cursor.execute(
+            """
+            SELECT COUNT(*)
+            FROM vulnerable_sites
+            WHERE city = ?
+            """,
+            (city,),
+        )
+        count_row = cursor.fetchone()
+        nearby_site_count = count_row[0] if count_row else 0
+
+        cursor.execute(
+            """
+            SELECT DISTINCT site_type
+            FROM vulnerable_sites
+            WHERE city = ?
+            """,
+            (city,),
+        )
+        type_rows = cursor.fetchall()
+        nearby_site_types = [r[0] for r in type_rows]
+
+    finally:
+        conn.close()
+
+    result = generate_source_attribution(
+        city=city,
+        aqi_value=aqi_value,
+        wind_speed=wind_speed,
+        wind_direction=wind_direction,
+        nearby_site_count=nearby_site_count,
+        nearby_site_types=nearby_site_types,
+    )
+    return result
+
+
+@router.post("/api/chat")
+def post_chat(request: ChatRequest):
+    """Answer citizen air quality questions using city context."""
+    _validate_city(request.city)
+
+    conn = database.get_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT aqi_value
+            FROM aqi_readings
+            WHERE city = ?
+            ORDER BY fetched_at DESC
+            LIMIT 1
+            """,
+            (request.city,),
+        )
+        aqi_row = cursor.fetchone()
+    finally:
+        conn.close()
+
+    if aqi_row is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No AQI readings available yet for city '{request.city}' to start air quality chat.",
+        )
+    aqi_value = aqi_row[0]
+
+    # Attempt to predict 24-hour forecast
+    forecast_aqi_24h = None
+    try:
+        forecast_result = predict_aqi(request.city, 24)
+        if forecast_result:
+            forecast_aqi_24h = forecast_result.get("predicted_aqi")
+    except Exception as exc:
+        logger.warning("Failing to forecast AQI for chat: %s", exc)
+        forecast_aqi_24h = None
+
+    result = answer_citizen_question(
+        question=request.question,
+        city=request.city,
+        current_aqi=aqi_value,
+        forecast_aqi_24h=forecast_aqi_24h,
+    )
+    return result
