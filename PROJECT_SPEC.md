@@ -47,7 +47,7 @@ Exactly 3 cities for the full build: **Chennai, Delhi, Bengaluru**. Do not add m
 | LLM | Google Gemini API (Gemini Flash, via google-generativeai SDK) | Genuinely free tier, no credit card, generous daily quota — no local model needed, saves your GPU/RAM entirely for other work |
 | Database | SQLite (single file, `airsense.db`) | Zero setup, no server process, perfectly fine for hackathon scale |
 | Scheduler | Python `APScheduler` (in-process) | No external cron needed, runs inside the backend process |
-| Frontend | React (Vite) + react-leaflet + Chart.js | Fast dev loop, Leaflet is the standard free mapping library |
+| Frontend | React 18 (Vite) + react-leaflet v4.2.1 (pinned — v5 requires React 19 and is incompatible with this project's React 18) + Chart.js | Fast dev loop, Leaflet is the standard free mapping library |
 | Map tiles | OpenStreetMap tile server (free, no key) | No cost, no signup needed |
 | Data sources | WAQI/aqicn.org API (primary, live CPCB mirror), OpenWeatherMap API, OSM Overpass API | All free, no hardware, generous free tiers. Note: OpenAQ was evaluated first but found to have stale/inactive Indian CPCB station data (most Indian stations last reported 2016-2018); WAQI mirrors CPCB's 586 Indian stations in real time and is used instead. |
 | Hosting (optional, for judge access) | Render.com or Railway free tier | Only needed if you want judges to access it without your laptop running |
