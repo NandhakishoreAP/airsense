@@ -47,7 +47,7 @@ export default function App() {
 
         <section className="panels-section">
           <ForecastPanel selectedCity={selectedCity} />
-          <AdvisoryPanel selectedCity={selectedCity} selectedLanguage={selectedLanguage} />
+          <AdvisoryPanel selectedCity={selectedCity} language={selectedLanguage} />
           <AttributionPanel selectedCity={selectedCity} />
         </section>
 
