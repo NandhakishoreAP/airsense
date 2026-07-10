@@ -7,6 +7,7 @@ export default function ChatBox({ city, selectedCity }) {
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -80,7 +81,7 @@ export default function ChatBox({ city, selectedCity }) {
   return (
     <div className="chat-box-container" style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', background: '#fff', boxSizing: 'border-box', minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
       <h3 style={{ margin: '0 0 4px 0' }}>Citizen Assistant Chat</h3>
-      
+
       {/* Scope helper note */}
       <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginBottom: '10px' }}>
         Ask about air quality, health precautions, or outdoor activity in <strong style={{ color: '#2c3e50' }}>{activeCity}</strong>
@@ -108,7 +109,7 @@ export default function ChatBox({ city, selectedCity }) {
         ) : (
           messages.map((msg) => {
             const isUser = msg.sender === 'user';
-            
+
             const alignContainerStyle = {
               display: 'flex',
               justifyContent: isUser ? 'flex-end' : 'flex-start'
