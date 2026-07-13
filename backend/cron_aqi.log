@@ -1,0 +1,422 @@
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5282.5h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11833.5h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 416.5h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:No new reading for Delhi (station last updated 2026-07-10T18:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 416.5h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 893.5h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 416.5h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 0 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5283.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11834.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 417.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:No new reading for Delhi (station last updated 2026-07-10T18:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 417.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 894.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 417.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 0 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5284.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11835.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 418.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 418.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 895.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 418.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5286.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11837.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 420.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 420.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 897.0h old; trying next candidate
+WARNING:__main__:WAQI feed request failed for Bengaluru uid=8191: HTTPSConnectionPool(host='api.waqi.info', port=443): Read timed out. (read timeout=10)
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 420.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5287.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11838.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 421.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 421.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 898.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 421.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5288.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11839.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 422.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 422.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 899.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 422.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5298.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11849.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 432.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 432.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 909.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 432.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5299.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11850.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 433.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 433.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 910.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 433.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5304.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11855.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 438.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 438.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 915.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 438.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5305.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11856.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 439.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 439.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 916.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 439.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5306.0h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11857.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 440.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 440.0h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 917.0h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 440.0h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted
+INFO:__main__:Starting AQI fetch and store...
+INFO:__main__:Fetching WAQI data for Chennai...
+WARNING:__main__:Candidate uid=13737 for Chennai is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=13739 for Chennai is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=8185 for Chennai is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=11859 for Chennai is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=11279 for Chennai is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=13740 for Chennai is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=12431 for Chennai is stale: 5347.6h old; trying next candidate
+WARNING:__main__:Candidate uid=7023 for Chennai is stale: 11898.6h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Chennai uid=8184: missing AQI value
+WARNING:__main__:WAQI data unavailable for Chennai uid=3757: missing AQI value
+WARNING:__main__:Using stale data for Chennai: freshest available candidate is 481.6h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Chennai (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Chennai
+INFO:__main__:Fetching WAQI data for Delhi...
+INFO:__main__:Inserted 1 readings for Delhi
+INFO:__main__:Fetching WAQI data for Bengaluru...
+WARNING:__main__:Candidate uid=11270 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=8190 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=11276 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=11428 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=8686 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=11293 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=11312 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=12441 for Bengaluru is stale: 481.6h old; trying next candidate
+WARNING:__main__:Candidate uid=8687 for Bengaluru is stale: 958.6h old; trying next candidate
+WARNING:__main__:WAQI data unavailable for Bengaluru uid=8191: missing AQI value
+WARNING:__main__:Using stale data for Bengaluru: freshest available candidate is 481.6h old (no candidate met 6h freshness threshold)
+INFO:__main__:No new reading for Bengaluru (station last updated 2026-06-23T10:00:00+05:30, skipping duplicate insert)
+INFO:__main__:Inserted 0 readings for Bengaluru
+INFO:__main__:AQI fetch complete.
+Chennai: 0 readings inserted
+Delhi: 1 readings inserted
+Bengaluru: 0 readings inserted

@@ -160,9 +160,10 @@ export default function MapView({ city, selectedCity }) {
             color="#000"
             weight={2}
             fillOpacity={0.85}
+            dashArray={aqiData.is_stale ? "6, 6" : undefined}
           >
             <Popup>
-              <div style={{ minWidth: '150px' }}>
+              <div style={{ minWidth: '180px' }}>
                 <h4 style={{ margin: '0 0 8px 0' }}>{aqiData.station_name || 'Monitoring Station'}</h4>
                 <p style={{ margin: '4px 0' }}>
                   <strong>AQI:</strong> <span style={{ padding: '2px 6px', borderRadius: '4px', background: getAqiColor(aqiData.aqi_value), color: aqiData.aqi_value > 50 && aqiData.aqi_value <= 100 ? '#000' : '#fff', fontWeight: 'bold' }}>{aqiData.aqi_value}</span>
@@ -171,9 +172,14 @@ export default function MapView({ city, selectedCity }) {
                   Recorded: {aqiData.recorded_at ? new Date(aqiData.recorded_at).toLocaleString() : 'N/A'}
                 </p>
                 {aqiData.is_stale ? (
-                  <p style={{ margin: '4px 0 0 0', color: '#d9534f', fontSize: '0.85rem', fontWeight: 'bold' }}>
-                    ⚠️ Stale Data ({aqiData.data_age_hours}h old)
-                  </p>
+                  <>
+                    <p style={{ margin: '6px 0', fontSize: '0.8rem', color: '#888', fontStyle: 'italic', lineHeight: '1.3' }}>
+                      This station has not reported fresh data recently — a known gap in current monitoring coverage for this area.
+                    </p>
+                    <p style={{ margin: '4px 0 0 0', color: '#d9534f', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                      ⚠️ Stale Data ({aqiData.data_age_hours}h old)
+                    </p>
+                  </>
                 ) : (
                   <p style={{ margin: '4px 0 0 0', color: '#5cb85c', fontSize: '0.85rem', fontWeight: 'bold' }}>
                     ✓ Data is fresh
@@ -199,6 +205,44 @@ export default function MapView({ city, selectedCity }) {
           </Marker>
         ))}
       </MapContainer>
+
+      {/* Persistent Map Legend */}
+      <div style={{
+        marginTop: '10px',
+        padding: '10px 12px',
+        border: '1px solid #ddd',
+        borderRadius: '6px',
+        background: '#fff',
+        display: 'flex',
+        gap: '20px',
+        fontSize: '0.82rem',
+        alignItems: 'center',
+        flexWrap: 'wrap'
+      }}>
+        <strong style={{ color: '#2c3e50' }}>AQI Station Legend:</strong>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{
+            display: 'inline-block',
+            width: '14px',
+            height: '14px',
+            border: '2px solid #000',
+            borderRadius: '50%',
+            background: '#e0e0e0'
+          }} />
+          <span>Live station data</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{
+            display: 'inline-block',
+            width: '14px',
+            height: '14px',
+            border: '2px dashed #000',
+            borderRadius: '50%',
+            background: '#e0e0e0'
+          }} />
+          <span>Stale data (verified via repeated checks)</span>
+        </div>
+      </div>
     </div>
   );
 }
