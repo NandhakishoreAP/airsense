@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getAqiCurrent } from '../api';
 
-function getAqiColor(aqi) {
-  if (aqi === null || aqi === undefined) return '#cccccc';
-  if (aqi <= 50) return '#00e400';   // Good (Green)
-  if (aqi <= 100) return '#ffff00';  // Moderate (Yellow)
-  if (aqi <= 150) return '#ff7e00';  // Unhealthy for Sensitive Groups (Orange)
-  if (aqi <= 200) return '#ff0000';  // Unhealthy (Red)
-  if (aqi <= 300) return '#8f3f97';  // Very Unhealthy (Purple)
-  return '#7e0023';                 // Hazardous (Maroon)
+function getAqiClassName(aqi) {
+  if (aqi === null || aqi === undefined) return 'aqi-unknown';
+  if (aqi <= 50) return 'aqi-good';
+  if (aqi <= 100) return 'aqi-moderate';
+  if (aqi <= 150) return 'aqi-unhealthy-sensitive';
+  if (aqi <= 200) return 'aqi-unhealthy';
+  if (aqi <= 300) return 'aqi-very-unhealthy';
+  return 'aqi-hazardous';
 }
 
 export default function CityComparison({ city, selectedCity }) {
@@ -64,7 +64,7 @@ export default function CityComparison({ city, selectedCity }) {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '180px', border: '1px solid #ddd', borderRadius: '8px', background: '#fcfcfc', padding: '1rem', boxSizing: 'border-box' }}>
+      <div className="panel-loading">
         <div>Comparing cities AQI...</div>
       </div>
     );
@@ -73,91 +73,52 @@ export default function CityComparison({ city, selectedCity }) {
   const citiesList = ['Chennai', 'Delhi', 'Bengaluru'];
 
   return (
-    <div className="city-comparison-container" style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', background: '#fff', minHeight: '180px', boxSizing: 'border-box' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <h3 style={{ margin: 0 }}>Multi-City AQI Comparison</h3>
+    <div className="city-comparison-container panel-container">
+      <div className="panel-footer-meta" style={{ marginBottom: 'var(--space-3)' }}>
+        <div className="card-title-container">
+          <svg className="card-icon icon-comparison" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="10" width="10" height="12" rx="2" />
+            <path d="M12 2h6a2 2 0 0 1 2 2v18h-8Z" />
+            <path d="M6 14h2M6 18h2M16 6h2M16 10h2M16 14h2M16 18h2" />
+          </svg>
+          <h3 className="card-title">Multi-City AQI Comparison</h3>
+        </div>
         <button
           onClick={handleRefresh}
-          style={{
-            padding: '4px 10px',
-            fontSize: '0.85rem',
-            cursor: 'pointer',
-            background: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 'bold'
-          }}
+          className="btn"
         >
           🔄 Refresh
         </button>
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <div className="cards-row">
         {citiesList.map((cityName) => {
           const cityData = data[cityName];
           const isSelected = activeCity === cityName;
           const hasError = !!cityData.error;
           const aqi = cityData.value ? cityData.value.aqi_value : null;
           const station = cityData.value ? cityData.value.station_name : null;
-          const color = getAqiColor(aqi);
-
-          const colStyle = {
-            flex: 1,
-            minWidth: '160px',
-            border: isSelected ? '2px solid #007bff' : '1px solid #ddd',
-            borderRadius: '6px',
-            padding: '1rem',
-            textAlign: 'center',
-            background: isSelected ? '#f0f7ff' : '#fafafa',
-            boxShadow: isSelected ? '0 4px 8px rgba(0,123,255,0.15)' : 'none',
-            transition: 'all 0.2s ease',
-            position: 'relative'
-          };
-
-          const textDarkColor = aqi > 50 && aqi <= 100 ? '#000' : '#fff';
 
           return (
-            <div key={cityName} style={colStyle}>
+            <div key={cityName} className={`comparison-col ${isSelected ? 'selected' : ''}`}>
               {isSelected && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  background: '#007bff',
-                  color: '#fff',
-                  padding: '2px 8px',
-                  borderRadius: '10px',
-                  fontSize: '0.7rem',
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase'
-                }}>
+                <span className="selected-badge">
                   Selected
                 </span>
               )}
 
-              <h4 style={{ margin: '0 0 10px 0', fontSize: '1.1rem', color: '#2c3e50' }}>{cityName}</h4>
+              <h4 className="city-col-title">{cityName}</h4>
 
               {hasError ? (
-                <div style={{ color: '#d9534f', fontSize: '0.9rem', margin: '15px 0', fontWeight: 'bold' }}>
+                <div style={{ color: 'var(--urgency-priority-text)', fontSize: '0.9rem', margin: 'var(--space-3) 0', fontWeight: 'bold' }}>
                   ⚠️ Data unavailable
                 </div>
               ) : (
                 <>
-                  <div style={{
-                    display: 'inline-block',
-                    padding: '8px 16px',
-                    borderRadius: '4px',
-                    background: color,
-                    color: textDarkColor,
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                    margin: '10px 0'
-                  }}>
+                  <div className={`aqi-badge ${getAqiClassName(aqi)}`} style={{ fontSize: '1.5rem', padding: 'var(--space-2) var(--space-4)', margin: 'var(--space-2) 0' }}>
                     {aqi !== null ? aqi : 'N/A'}
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginTop: '6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: 'var(--space-1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {station || 'Station Unknown'}
                   </div>
                 </>

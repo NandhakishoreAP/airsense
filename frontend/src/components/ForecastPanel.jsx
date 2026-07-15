@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
 import { getAqiCurrent, getAqiForecast } from '../api';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 function formatMethod(method) {
   if (!method) return 'Unknown';
@@ -72,9 +72,15 @@ export default function ForecastPanel({ city, selectedCity }) {
     fetchData(true);
   };
 
+  // Helper function to read CSS variables
+  const getThemeValue = (varName, fallback) => {
+    if (typeof window === 'undefined') return fallback;
+    return getComputedStyle(document.documentElement).getPropertyValue(varName).trim() || fallback;
+  };
+
   if (loading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '250px', border: '1px solid #ddd', borderRadius: '8px', background: '#fcfcfc', padding: '1rem', boxSizing: 'border-box' }}>
+      <div className="panel-loading">
         <div>Loading AQI forecast for {activeCity}...</div>
       </div>
     );
@@ -102,15 +108,27 @@ export default function ForecastPanel({ city, selectedCity }) {
 
   if (dataPoints.length === 0) {
     return (
-      <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1.5rem', background: '#fff5f5', minHeight: '250px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <h3 style={{ margin: '0 0 10px 0' }}>Forecast Panel</h3>
-        <p style={{ color: '#cc0000', margin: '0 0 15px 0', textAlign: 'center' }}>No current AQI or forecast data available yet for {activeCity}.</p>
-        <button onClick={handleRetry} style={{ padding: '0.5rem 1rem', cursor: 'pointer', background: '#cc0000', color: '#fff', border: 'none', borderRadius: '4px' }}>Retry</button>
+      <div className="panel-error">
+        <div className="card-title-container">
+          <svg className="card-icon icon-forecast" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 3v18h18" />
+            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+          </svg>
+          <h3 className="card-title">Forecast Panel</h3>
+        </div>
+        <p>No current AQI or forecast data available yet for {activeCity}.</p>
+        <button onClick={handleRetry} className="btn">Retry</button>
       </div>
     );
   }
 
   const method = (forecast24 && forecast24.method) || (forecast48 && forecast48.method) || (forecast72 && forecast72.method);
+
+  const accentColor = getThemeValue('--accent', '#0d9488');
+  const borderColorValue = getThemeValue('--border', '#e4e7eb');
+  const textPrimary = getThemeValue('--text-primary', '#1a1d23');
+  const textSecondary = getThemeValue('--text-secondary', '#6b7280');
+  const fontSans = getThemeValue('--font-sans', "'Inter', sans-serif");
 
   const data = {
     labels,
@@ -118,12 +136,15 @@ export default function ForecastPanel({ city, selectedCity }) {
       {
         label: `${activeCity} Predicted AQI Trend`,
         data: dataPoints,
-        borderColor: 'rgb(54, 162, 235)',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderWidth: 2.5,
-        pointBackgroundColor: 'rgb(54, 162, 235)',
-        pointRadius: 5,
-        pointHoverRadius: 7,
+        borderColor: '#3B82F6',
+        backgroundColor: 'rgba(59, 130, 246, 0.12)', // soft fill area under line (Part 5)
+        fill: true, // enable filled area
+        borderWidth: 3,
+        pointBackgroundColor: '#3B82F6',
+        pointBorderColor: '#FFFFFF', // white border around dots
+        pointBorderWidth: 2,
+        pointRadius: 5.5, // 5.5px point radius (Part 5)
+        pointHoverRadius: 8,
         tension: 0.25,
       }
     ]
@@ -136,25 +157,59 @@ export default function ForecastPanel({ city, selectedCity }) {
       legend: {
         display: true,
         position: 'top',
+        labels: {
+          color: textPrimary,
+          font: {
+            family: fontSans,
+            size: 12,
+            weight: '600'
+          }
+        }
       },
       tooltip: {
         enabled: true,
+        titleFont: { family: fontSans },
+        bodyFont: { family: fontSans }
       }
     },
     scales: {
       y: {
         beginAtZero: true,
+        grid: {
+          color: borderColorValue,
+          drawBorder: false
+        },
+        ticks: {
+          color: textSecondary,
+          font: { family: fontSans }
+        },
         title: {
           display: true,
+          color: textPrimary,
           text: 'AQI Value',
-          font: { weight: 'bold' }
+          font: {
+            family: fontSans,
+            weight: 'bold'
+          }
         }
       },
       x: {
+        grid: {
+          color: borderColorValue,
+          drawBorder: false
+        },
+        ticks: {
+          color: textSecondary,
+          font: { family: fontSans }
+        },
         title: {
           display: true,
+          color: textPrimary,
           text: 'Time Horizon',
-          font: { weight: 'bold' }
+          font: {
+            family: fontSans,
+            weight: 'bold'
+          }
         }
       }
     }
@@ -163,26 +218,32 @@ export default function ForecastPanel({ city, selectedCity }) {
   const hasErrors = Object.keys(errors).length > 0;
 
   return (
-    <div className="forecast-panel-container" style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', background: '#fff', minHeight: '320px', boxSizing: 'border-box' }}>
-      <h3 style={{ margin: '0 0 10px 0' }}>Forecast Dynamics for {activeCity}</h3>
+    <div className="forecast-panel-container panel-container">
+      <div className="card-title-container">
+        <svg className="card-icon icon-forecast" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 3v18h18" />
+          <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+        </svg>
+        <h3 className="card-title">Forecast Dynamics for {activeCity}</h3>
+      </div>
 
       {/* Render line chart */}
-      <div style={{ height: '220px', position: 'relative' }}>
+      <div className="chart-wrapper">
         <Line data={data} options={chartOptions} />
       </div>
 
       {/* Method description */}
       {method && (
-        <div style={{ marginTop: '12px', fontSize: '0.85rem', color: '#555', fontStyle: 'italic' }}>
+        <div className="panel-subtitle">
           <strong>Forecast method:</strong> {formatMethod(method)}
         </div>
       )}
 
       {/* Error warnings if any partial calls failed */}
       {hasErrors && (
-        <div style={{ padding: '8px 12px', background: '#fff9e6', border: '1px solid #ffe0b2', borderRadius: '4px', marginTop: '12px', fontSize: '0.8rem', color: '#b78103' }}>
+        <div className="error-banner">
           <strong>⚠️ Some data was unavailable:</strong>
-          <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+          <ul>
             {Object.entries(errors).map(([key, msg]) => (
               <li key={key}>{msg}</li>
             ))}

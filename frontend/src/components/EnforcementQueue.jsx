@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { getAqiCurrent, getAqiForecast, getVulnerableSites } from '../api';
 
-function getActionStyles(action) {
+function getActionBadgeClass(action) {
   switch (action) {
     case 'Priority inspection recommended':
-      return { color: '#d9534f', bg: '#fdf2f2', border: '#f8d7da' };
+      return 'badge-urgency-priority';
     case 'Increased monitoring recommended':
-      return { color: '#fa8c16', bg: '#fffbe6', border: '#ffe58f' };
+      return 'badge-urgency-increased';
     case 'Monitor closely':
-      return { color: '#1890ff', bg: '#e6f7ff', border: '#91d5ff' };
+      return 'badge-urgency-monitor';
     default:
-      return { color: '#52c41a', bg: '#f6ffed', border: '#b7eb8f' };
+      return 'badge-urgency-routine';
   }
+}
+
+function getAqiClassName(aqi) {
+  if (aqi === null || aqi === undefined) return 'aqi-unknown';
+  if (aqi <= 50) return 'aqi-good';
+  if (aqi <= 100) return 'aqi-moderate';
+  if (aqi <= 150) return 'aqi-unhealthy-sensitive';
+  if (aqi <= 200) return 'aqi-unhealthy';
+  if (aqi <= 300) return 'aqi-very-unhealthy';
+  return 'aqi-hazardous';
 }
 
 export default function EnforcementQueue({ city, selectedCity }) {
@@ -158,109 +168,77 @@ export default function EnforcementQueue({ city, selectedCity }) {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '220px', border: '1px solid #ddd', borderRadius: '8px', background: '#fcfcfc', padding: '1rem', boxSizing: 'border-box' }}>
+      <div className="panel-loading">
         <div>Evaluating enforcement priorities...</div>
       </div>
     );
   }
 
   return (
-    <div className="enforcement-queue-container" style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', background: '#fff', boxSizing: 'border-box', minHeight: '220px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-        <h3 style={{ margin: 0 }}>Enforcement & Inspection Priority Queue</h3>
+    <div className="enforcement-queue-container panel-container">
+      <div className="panel-footer-meta" style={{ marginBottom: 'var(--space-3)' }}>
+        <div className="card-title-container">
+          <svg className="card-icon icon-enforcement" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+          </svg>
+          <h3 className="card-title">Enforcement & Inspection Priority Queue</h3>
+        </div>
         <button
           onClick={handleRefresh}
-          style={{
-            padding: '4px 10px',
-            fontSize: '0.85rem',
-            cursor: 'pointer',
-            background: '#ff4d4f',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 'bold'
-          }}
+          className="btn"
         >
           🔄 Recalculate
         </button>
       </div>
 
       {rankedList.length === 0 && excludedList.length === 0 ? (
-        <p style={{ color: '#666', fontStyle: 'italic', textAlign: 'center' }}>No priority ranking data could be resolved.</p>
+        <p style={{ color: 'var(--text-secondary)', fontStyle: 'italic', textAlign: 'center' }}>No priority ranking data could be resolved.</p>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div className="enforcement-list">
           {rankedList.map((item, index) => {
             const isSelected = activeCity === item.name;
-            const actionStyles = getActionStyles(item.actionLabel);
+            const actionBadgeClass = getActionBadgeClass(item.actionLabel);
             const trendStyle = item.trend === 'worsening'
-              ? { color: '#ff4d4f', fontWeight: 'bold' }
+              ? { color: 'var(--urgency-priority-text)', fontWeight: 'bold' }
               : item.trend === 'improving'
-              ? { color: '#52c41a', fontWeight: 'bold' }
-              : { color: '#7f8c8d' };
+              ? { color: 'var(--confidence-high-text)', fontWeight: 'bold' }
+              : { color: 'var(--text-secondary)' };
 
             return (
               <div
                 key={item.name}
+                className={`enforcement-row fade-in ${isSelected ? 'selected' : ''}`}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '12px 16px',
-                  border: isSelected ? '2px solid #007bff' : '1px solid #e8e8e8',
-                  borderRadius: '6px',
-                  background: isSelected ? '#f0f7ff' : '#fff',
-                  boxShadow: isSelected ? '0 4px 10px rgba(0, 123, 255, 0.1)' : 'none',
-                  transition: 'all 0.2s ease',
-                  position: 'relative'
+                  animationDelay: `${index * 60}ms` // dynamic offset stagger cascades on mount
                 }}
               >
                 {/* Visual Rank Badge */}
-                <div style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: index === 0 ? '#ff4d4f' : index === 1 ? '#fa8c16' : '#52c41a',
-                  color: '#fff',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 'bold',
-                  fontSize: '1rem',
-                  marginRight: '16px',
-                  flexShrink: 0
-                }}>
+                <div className={`rank-marker rank-${index + 1}`}>
                   {index + 1}
                 </div>
 
                 {/* City Details */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
-                    <h4 style={{ margin: 0, fontSize: '1.05rem', color: '#2c3e50' }}>{item.name}</h4>
-                    <span style={{ fontSize: '0.8rem', color: '#7f8c8d' }}>
-                      (Score: <strong style={{ color: '#2c3e50' }}>{item.score}</strong>)
+                <div className="enforcement-details">
+                  <div className="enforcement-details-header">
+                    <h4>{item.name}</h4>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                      (Score: <strong style={{ color: 'var(--text-primary)' }}>{item.score}</strong>)
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '15px', marginTop: '6px', fontSize: '0.85rem', color: '#666', flexWrap: 'wrap' }}>
-                    <span>Current AQI: <strong style={{ color: '#333' }}>{item.currentAqi}</strong></span>
+                  <div className="enforcement-details-sub">
+                    <span>
+                      Current AQI: <span className={`aqi-badge ${getAqiClassName(item.currentAqi)}`} style={{ padding: '2px 6px', fontSize: '0.8rem', marginLeft: '4px' }}>{item.currentAqi}</span>
+                    </span>
                     <span>Trend: <span style={trendStyle}>{item.trendLabel}</span></span>
-                    <span>Vulnerable Sites: <strong style={{ color: '#333' }}>{item.siteCount}</strong></span>
+                    <span>Vulnerable Sites: <strong style={{ color: 'var(--text-primary)' }}>{item.siteCount}</strong></span>
                   </div>
                 </div>
 
                 {/* Actions Label Badge */}
-                <div style={{
-                  alignSelf: 'center',
-                  padding: '6px 12px',
-                  borderRadius: '4px',
-                  fontSize: '0.8rem',
-                  fontWeight: '700',
-                  color: actionStyles.color,
-                  background: actionStyles.bg,
-                  border: `1px solid ${actionStyles.border}`,
-                  textAlign: 'center',
-                  flexShrink: 0,
-                  maxWidth: '180px'
-                }}>
+                <div className={`badge ${actionBadgeClass}`}>
                   {item.actionLabel}
                 </div>
               </div>
@@ -271,9 +249,9 @@ export default function EnforcementQueue({ city, selectedCity }) {
 
       {/* Render failures panel */}
       {excludedList.length > 0 && (
-        <div style={{ marginTop: '14px', padding: '10px 14px', background: '#fff1f0', border: '1px solid #ffa39e', borderRadius: '6px', fontSize: '0.8rem', color: '#888' }}>
-          <strong style={{ color: '#cf1322' }}>⚠️ Excluded from priority queue:</strong>
-          <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+        <div className="error-banner" style={{ background: 'var(--urgency-priority)', border: '1px solid rgba(126, 0, 35, 0.2)', color: 'var(--text-secondary)' }}>
+          <strong style={{ color: 'var(--urgency-priority-text)' }}>⚠️ Excluded from priority queue:</strong>
+          <ul>
             {excludedList.map(item => (
               <li key={item.name}>
                 <strong>{item.name}</strong>: {item.reason}

@@ -8,8 +8,8 @@ import config
 logger = logging.getLogger(__name__)
 
 # Prefer the newer Flash model first; if Google renames/deprecates it, update here.
-PRIMARY_MODEL_NAME = "gemini-2.5-flash"
-FALLBACK_MODEL_NAME = "gemini-2.5-flash-lite"
+PRIMARY_MODEL_NAME = "gemini-flash-latest"
+FALLBACK_MODEL_NAME = "gemini-flash-lite-latest"
 
 genai.configure(api_key=config.GEMINI_API_KEY)
 
@@ -63,17 +63,19 @@ def answer_citizen_question(question, city, current_aqi, forecast_aqi_24h=None):
             error_text = str(first_error).lower()
             if "429" in error_text or "quota" in error_text:
                 logger.warning(
-                    "Gemini rate-limit/quota error for chat in %s; retrying once in 5 seconds: %s",
+                    "Gemini rate-limit/quota error for chat in %s; retrying once in 5 seconds using fallback model %s: %s",
                     city,
+                    FALLBACK_MODEL_NAME,
                     first_error,
                 )
                 time.sleep(5)
                 try:
-                    response = model.generate_content(prompt)
+                    fallback_model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
+                    response = fallback_model.generate_content(prompt)
                     answer_text = (response.text or "").strip()
                     if not answer_text:
                         raise ValueError("Gemini returned an empty chat response")
-                    logger.info("Citizen question answered on retry for %s", city)
+                    logger.info("Citizen question answered on retry using fallback model %s for %s", FALLBACK_MODEL_NAME, city)
                 except Exception as retry_error:
                     error_text_retry = str(retry_error).lower()
                     if "429" in error_text_retry or "quota" in error_text_retry:

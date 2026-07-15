@@ -79,58 +79,32 @@ export default function ChatBox({ city, selectedCity }) {
   };
 
   return (
-    <div className="chat-box-container" style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', background: '#fff', boxSizing: 'border-box', minHeight: '380px', display: 'flex', flexDirection: 'column' }}>
-      <h3 style={{ margin: '0 0 4px 0' }}>Citizen Assistant Chat</h3>
+    <div className="chat-box-container chat-wrapper">
+      <div className="card-title-container">
+        <svg className="card-icon icon-chat" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <h3 className="card-title">Citizen Assistant Chat</h3>
+      </div>
 
       {/* Scope helper note */}
-      <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginBottom: '10px' }}>
-        Ask about air quality, health precautions, or outdoor activity in <strong style={{ color: '#2c3e50' }}>{activeCity}</strong>
+      <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
+        Ask about air quality, health precautions, or outdoor activity in <strong style={{ color: 'var(--text-primary)' }}>{activeCity}</strong>
       </div>
 
       {/* Messages window */}
-      <div style={{
-        flex: 1,
-        minHeight: '260px',
-        maxHeight: '300px',
-        overflowY: 'auto',
-        border: '1px solid #e8e8e8',
-        borderRadius: '6px',
-        padding: '10px',
-        background: '#fafafa',
-        marginBottom: '10px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-      }}>
+      <div className="chat-messages-window">
         {messages.length === 0 ? (
-          <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: '#888', fontStyle: 'italic', fontSize: '0.9rem' }}>
+          <div className="chat-empty-state">
             No messages yet. Send a question to start.
           </div>
         ) : (
           messages.map((msg) => {
             const isUser = msg.sender === 'user';
 
-            const alignContainerStyle = {
-              display: 'flex',
-              justifyContent: isUser ? 'flex-end' : 'flex-start'
-            };
-
-            const bubbleStyle = {
-              padding: '8px 12px',
-              borderRadius: isUser ? '12px 12px 0 12px' : '12px 12px 12px 0',
-              background: isUser ? '#007bff' : msg.isError ? '#fff1f0' : msg.isThinking ? '#f5f5f5' : '#e9ecef',
-              color: isUser ? '#fff' : msg.isError ? '#cf1322' : '#333',
-              border: msg.isError ? '1px solid #ffa39e' : 'none',
-              fontStyle: msg.isThinking ? 'italic' : 'normal',
-              maxWidth: '85%',
-              wordBreak: 'break-word',
-              fontSize: '0.9rem',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-            };
-
             return (
-              <div key={msg.id} style={alignContainerStyle}>
-                <div style={bubbleStyle}>
+              <div key={msg.id} className={`chat-bubble-container ${isUser ? 'user' : 'assistant'} fade-in`}>
+                <div className={`chat-bubble ${isUser ? 'user' : ''} ${!isUser && msg.isThinking ? 'thinking' : ''} ${!isUser && msg.isError ? 'error' : ''} ${!isUser && !msg.isThinking && !msg.isError ? 'assistant' : ''}`}>
                   {msg.text}
                 </div>
               </div>
@@ -141,34 +115,19 @@ export default function ChatBox({ city, selectedCity }) {
       </div>
 
       {/* Inputs Form */}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '8px' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 'var(--space-2)' }}>
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Ask a question..."
-          style={{
-            flex: 1,
-            padding: '8px 12px',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-            fontSize: '0.9rem',
-            outline: 'none'
-          }}
+          className="chat-input"
         />
         <button
           type="submit"
-          style={{
-            padding: '8px 16px',
-            background: '#007bff',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 'bold',
-            cursor: inputValue.trim() ? 'pointer' : 'not-allowed',
-            opacity: inputValue.trim() ? 1 : 0.6
-          }}
+          className="btn chat-send-btn"
           disabled={!inputValue.trim()}
+          style={{ minWidth: '80px' }}
         >
           Send
         </button>

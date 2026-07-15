@@ -47,7 +47,7 @@ export default function AdvisoryPanel({ city, selectedCity, language }) {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '180px', border: '1px solid #ddd', borderRadius: '8px', background: '#fcfcfc', padding: '1rem', boxSizing: 'border-box' }}>
+      <div className="panel-loading">
         <div>Generating health advisory...</div>
       </div>
     );
@@ -55,10 +55,15 @@ export default function AdvisoryPanel({ city, selectedCity, language }) {
 
   if (error) {
     return (
-      <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1.5rem', background: '#fff5f5', minHeight: '180px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <h3 style={{ margin: '0 0 10px 0' }}>Health Advisory</h3>
-        <p style={{ color: '#cc0000', margin: '0 0 15px 0', textAlign: 'center', fontWeight: 'bold' }}>{error}</p>
-        <button onClick={handleRetry} style={{ padding: '0.5rem 1rem', cursor: 'pointer', background: '#cc0000', color: '#fff', border: 'none', borderRadius: '4px' }}>Retry</button>
+      <div className="panel-error">
+        <div className="card-title-container">
+          <svg className="card-icon icon-advisory" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+          </svg>
+          <h3 className="card-title">Health Advisory</h3>
+        </div>
+        <p>{error}</p>
+        <button onClick={handleRetry} className="btn">Retry</button>
       </div>
     );
   }
@@ -68,30 +73,25 @@ export default function AdvisoryPanel({ city, selectedCity, language }) {
   }
 
   return (
-    <div className="advisory-panel-container" style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', background: '#fff', minHeight: '180px', boxSizing: 'border-box' }}>
-      <h3 style={{ margin: '0 0 10px 0' }}>Citizen Health Advisory ({activeCity})</h3>
+    <div className="advisory-panel-container panel-container">
+      <div className="card-title-container">
+        <svg className="card-icon icon-advisory" viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+        </svg>
+        <h3 className="card-title">Citizen Health Advisory ({activeCity})</h3>
+      </div>
 
-      <div style={{
-        padding: '1rem',
-        borderRadius: '6px',
-        background: '#f4f6f9',
-        borderLeft: '4px solid #28a745',
-        margin: '10px 0',
-        fontSize: '1.05rem',
-        lineHeight: '1.6',
-        color: '#2c3e50',
-        fontWeight: '500'
-      }}>
+      <div className="advisory-box">
         {advisory.advisory_text}
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: '#7f8c8d', flexWrap: 'wrap', gap: '8px', marginTop: '8px' }}>
-        <span>Based on AQI Level: <strong style={{ color: '#2c3e50' }}>{advisory.aqi_value}</strong></span>
-        <span>Advisory Language: <strong style={{ color: '#2c3e50' }}>{advisory.language}</strong></span>
+      <div className="panel-footer-meta">
+        <span>Based on AQI Level: <strong style={{ color: 'var(--text-primary)' }}>{advisory.aqi_value}</strong></span>
+        <span>Advisory Language: <strong style={{ color: 'var(--text-primary)' }}>{advisory.language}</strong></span>
       </div>
 
       {advisory.error && (
-        <div style={{ marginTop: '12px', padding: '8px 12px', background: '#fff3cd', border: '1px solid #ffeeba', color: '#856404', borderRadius: '4px', fontSize: '0.85rem' }}>
+        <div className="error-banner">
           ⚠️ Live advisory generation is temporarily unavailable — showing a general fallback message
         </div>
       )}

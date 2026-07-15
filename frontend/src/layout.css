@@ -1,0 +1,160 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg);
+}
+
+/* Header styling (Part 2 Redesign) */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px var(--space-5);
+  background: linear-gradient(135deg, #0D9488 0%, #0F766E 100%);
+  color: #FFFFFF;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.app-header .subtitle {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.01em;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.controls label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Dropdown styled cleanly with translucency */
+.controls select {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  outline: none;
+  cursor: pointer;
+  height: 32px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 150ms ease;
+}
+
+.controls select option {
+  background-color: #0F766E;
+  color: #FFFFFF;
+}
+
+.controls select:focus {
+  border-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Dashboard Container System (Step 3 Layout Configuration) */
+.dashboard-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: var(--space-6) auto;
+  padding: 0 var(--space-6);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.row-map {
+  width: 100%;
+}
+
+.row-triple {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+.row-double {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+.row-chat {
+  width: 100%;
+}
+
+/* Staggered Delay for Cascading Entrance Fade-in */
+.row-map .fade-in {
+  animation-delay: 0ms;
+}
+.row-triple .fade-in:nth-child(1) {
+  animation-delay: 60ms;
+}
+.row-triple .fade-in:nth-child(2) {
+  animation-delay: 120ms;
+}
+.row-triple .fade-in:nth-child(3) {
+  animation-delay: 180ms;
+}
+.row-double .fade-in:nth-child(1) {
+  animation-delay: 240ms;
+}
+.row-double .fade-in:nth-child(2) {
+  animation-delay: 300ms;
+}
+.row-chat .fade-in {
+  animation-delay: 360ms;
+}
+
+/* Responsive Grid Stacking for viewports below 1000px */
+@media (max-width: 1000px) {
+  .dashboard-container {
+    padding: 0 var(--space-4);
+    gap: var(--space-4);
+  }
+  
+  .row-triple {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .row-double {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+}

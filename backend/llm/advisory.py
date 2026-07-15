@@ -9,8 +9,8 @@ import config
 logger = logging.getLogger(__name__)
 
 # Prefer the newer Flash model first; if Google renames/deprecates it, update here.
-PRIMARY_MODEL_NAME = "gemini-2.5-flash"
-FALLBACK_MODEL_NAME = "gemini-2.5-flash-lite"
+PRIMARY_MODEL_NAME = "gemini-flash-latest"
+FALLBACK_MODEL_NAME = "gemini-flash-lite-latest"
 
 genai.configure(api_key=config.GEMINI_API_KEY)
 
@@ -58,18 +58,20 @@ def generate_health_advisory(city, aqi_value, language="English"):
             error_text = str(first_error).lower()
             if "429" in error_text or "quota" in error_text:
                 logger.warning(
-                    "Gemini rate-limit/quota error for %s (%s); retrying once in 5 seconds: %s",
+                    "Gemini rate-limit/quota error for %s (%s); retrying once in 5 seconds using fallback model %s: %s",
                     city,
                     language,
+                    FALLBACK_MODEL_NAME,
                     first_error,
                 )
                 time.sleep(5)
                 try:
-                    response = model.generate_content(prompt)
+                    fallback_model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
+                    response = fallback_model.generate_content(prompt)
                     advisory_text = (response.text or "").strip()
                     if not advisory_text:
                         raise ValueError("Gemini returned an empty advisory response")
-                    logger.info("Health advisory generated on retry for %s (%s)", city, language)
+                    logger.info("Health advisory generated on retry using fallback model %s for %s (%s)", FALLBACK_MODEL_NAME, city, language)
                 except Exception as retry_error:
                     error_text_retry = str(retry_error).lower()
                     if "429" in error_text_retry or "quota" in error_text_retry:

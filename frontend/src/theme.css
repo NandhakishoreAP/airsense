@@ -1,0 +1,67 @@
+:root {
+  /* Colors */
+  --bg: #F4F6F8;
+  --surface: #FFFFFF;
+  --border: #E4E7EB;
+  --text-primary: #1A1D23;
+  --text-secondary: #6B7280;
+  --accent: #0D9488;
+  --accent-hover: #0F766E;
+  --accent-soft: #F0FDFA;
+
+  /* Confidence Rating Colors (Soft Backgrounds) */
+  --confidence-high: #D1FAE5;
+  --confidence-high-text: #065F46;
+  --confidence-moderate: #FEF3C7;
+  --confidence-moderate-text: #92400E;
+  --confidence-low: #FEE2E2;
+  --confidence-low-text: #991B1B;
+  --confidence-unknown: #F3F4F6;
+  --confidence-unknown-text: #374151;
+
+  /* Urgency / Recommendation Badge Colors */
+  --urgency-routine: #F3F4F6;
+  --urgency-routine-text: #374151;
+  --urgency-monitor: #E0F2FE;
+  --urgency-monitor-text: #0369A1;
+  --urgency-increased: #FEF3C7;
+  --urgency-increased-text: #B45309;
+  --urgency-priority: #FEE2E2;
+  --urgency-priority-text: #7E0023; /* matches var(--aqi-hazardous) */
+
+  /* AQI Severity Colors - Reserved strictly for data visualization, not UI elements */
+  --aqi-good: #00E400;
+  --aqi-moderate: #FFFF00;
+  --aqi-unhealthy-sensitive: #FF7E00;
+  --aqi-unhealthy: #FF0000;
+  --aqi-very-unhealthy: #8F3F97;
+  --aqi-hazardous: #7E0023;
+
+  /* AQI Severity Text colors */
+  --aqi-good-text: #FFFFFF;
+  --aqi-moderate-text: #1A1D23;
+  --aqi-unhealthy-sensitive-text: #FFFFFF;
+  --aqi-unhealthy-text: #FFFFFF;
+  --aqi-very-unhealthy-text: #FFFFFF;
+  --aqi-hazardous-text: #FFFFFF;
+  --aqi-unknown-text: #6B7280;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(16, 24, 32, 0.08), 0 1px 2px rgba(16, 24, 32, 0.04);
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
