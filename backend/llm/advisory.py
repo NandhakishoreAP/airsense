@@ -38,6 +38,10 @@ def generate_health_advisory(city, aqi_value, language="English"):
         "Keep it to 2-3 sentences. Explain whether outdoor activity or exercise is advisable, "
         "and include specific guidance for vulnerable groups such as people with respiratory conditions, "
         "older adults, and children. Use clear everyday language. "
+        "Base your advisory strictly and only on the AQI value provided. Do NOT mention specific times of "
+        "day (such as morning, evening, or night), specific locations, or any other detail that was not "
+        "explicitly given to you in this prompt. Keep all recommendations general in terms of timing — "
+        "for example 'reduce prolonged outdoor exertion' rather than referencing any particular hour or period of day. "
         "Respond with ONLY the advisory text. Do not add a title, preamble, markdown, bullet points, "
         "or any explanation of your instructions. Do not repeat the question."
     )

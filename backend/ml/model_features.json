@@ -1,0 +1,9 @@
+[
+  "hour_of_day",
+  "day_of_week",
+  "is_weekend",
+  "aqi_rolling_mean_6h",
+  "city_Bengaluru",
+  "city_Chennai",
+  "city_Delhi"
+]
