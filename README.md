@@ -109,7 +109,7 @@ screenshots saved. See "Adding Screenshots" further down for exact steps.
 
 | Forecast and Advisory Panels | Enforcement Priority Queue |
 |---|---|
-| ![Forecast and Advisory](docs/screenshots/forecast-advisory.png) | ![Enforcement Priority](docs/screenshots/enforcement-priority.png) |
+| ![Forecast and Advisory](docs/screenshots/forecast-advisory.png) | ![Enforcement Priority](docs/screenshots/enforcement-queue.png) |
 
 ---
 
