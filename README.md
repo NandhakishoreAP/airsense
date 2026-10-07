@@ -2,7 +2,7 @@
 
 # AirSense — Urban Air Quality Intelligence Platform
 
-**A live, end-to-end air quality intelligence system that fuses real-time sensor data, weather, and geospatial data through a trained forecasting model and three purpose-built AI agents — built solo for the ET AI Hackathon 2026.**
+**A live, end-to-end air quality intelligence system that fuses real-time sensor data, weather, and geospatial data through a trained forecasting model and three purpose-built AI agents.**
 
 ![Python](https://img.shields.io/badge/python-3.11-blue.svg)
 ![React](https://img.shields.io/badge/react-18-61DAFB.svg)
@@ -31,27 +31,40 @@ AirSense is a live dashboard for **Chennai, Delhi, and Bengaluru** that goes bey
 
 ---
 
-
 ## Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        DATA LAYER                            │
-│   WAQI (live AQI) · OpenWeatherMap · OSM Overpass (sites)    │
-│              collected hourly via cron, deduplicated         │
-└───────────────────────────┬───────────────────────────────┘
-                             │
-┌────────────────────────────▼──────────────────────────────┐
-│                     INTELLIGENCE LAYER                       │
-│   XGBoost forecasting model   │   3 Gemini LLM agents        │
-│   (prediction, numbers)       │   (reasoning, language)      │
-└────────────────────────────┬──────────────────────────────┘
-                             │
-┌────────────────────────────▼──────────────────────────────┐
-│                    PRESENTATION LAYER                        │
-│         FastAPI REST API   →   React + Leaflet dashboard     │
+│                          DATA LAYER                         │
+│   WAQI (live AQI) · OpenWeatherMap · OSM Overpass (sites)   │
+│           collected hourly via cron, deduplicated           │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                      INTELLIGENCE LAYER                     │
+│  XGBoost forecasting model   │     3 Gemini LLM agents      │
+│    (prediction, numbers)     │    (reasoning, language)     │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+┌──────────────────────────────▼──────────────────────────────┐
+│                      PRESENTATION LAYER                     │
+│       FastAPI REST API   →   React + Leaflet dashboard      │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+### Frontend Component Breakdown
+
+How shared state feeds all seven dashboard panels:
+
+![Frontend Component Breakdown](docs/diagrams/frontend-component-breakdown.png)
+
+### Request Workflow
+
+What actually happens end to end when a user selects a city:
+
+![Request Workflow](docs/diagrams/request-workflow.png)
+
+Both diagrams are also included as dedicated slides in the project presentation deck.
 
 ---
 
@@ -98,11 +111,6 @@ The forecasting model automatically falls back to a transparent naive method whe
 
 ## Screenshots
 
-<!--
-Replace each line below with an actual image reference once you have your
-screenshots saved. See "Adding Screenshots" further down for exact steps.
--->
-
 | Dashboard Overview | Live Map with Vulnerable Sites |
 |---|---|
 | ![Dashboard Overview](docs/screenshots/dashboard-overview.png) | ![Live Map](docs/screenshots/map-vulnerable-sites.png) |
@@ -119,6 +127,7 @@ Watch the complete project demonstration here:
 
 **▶ Demo Video:**
 https://drive.google.com/file/d/1zd4P8jZPhz89xsdaK0PtmfvYuBGUpFIi/view?usp=drive_link
+
 
 
 ## Project Structure
@@ -226,15 +235,13 @@ python -m ml.train_model
 
 Stated directly rather than glossed over:
 
-- Satellite and remote-sensing pollution attribution (Sentinel, MODIS) is intentionally out of scope. It requires specialized geospatial processing beyond a solo hackathon timeline, and is documented here as a future-phase extension rather than silently omitted.
+- Satellite and remote-sensing pollution attribution (Sentinel, MODIS) is intentionally out of scope. It requires specialized geospatial processing beyond the scope of a solo build, and is documented here as a future-phase extension rather than silently omitted.
 - Source attribution uses vulnerable-site density as an urban-activity proxy, not verified traffic or industrial emissions data, which does not exist in any public, machine-readable form for these cities today. The system states this explicitly and lowers its own confidence accordingly.
 - Some monitoring stations, particularly in Chennai and Bengaluru, have genuine, verified multi-week gaps in live reporting — a documented limitation of India's current air-quality monitoring infrastructure, not a defect in this system. AirSense surfaces this transparently rather than masking it.
 
 ---
 
 ## Acknowledgments
-
-Built solo for the ET AI Hackathon 2026, Problem Statement: "AI-Powered Urban Air Quality Intelligence for Smart City Intervention."
 
 Data sources: CPCB / WAQI, OpenWeatherMap, OpenStreetMap contributors.
 Intelligence layer: XGBoost, Google Gemini.
