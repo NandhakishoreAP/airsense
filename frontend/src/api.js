@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:8000';
+export const API_URL = import.meta.env.VITE_API_URL || "";
 const responseCache = new Map();
 const CACHE_MS = 30_000;
 
@@ -35,7 +35,7 @@ async function cachedGet(url, forceRefresh = false) {
  * Fetch current AQI for a city.
  */
 export async function getAqiCurrent(city) {
-  const url = `${API_BASE_URL}/api/aqi/current?city=${encodeURIComponent(city)}`;
+  const url = `${API_URL}/api/aqi/current?city=${encodeURIComponent(city)}`;
   return cachedGet(url);
 }
 
@@ -43,7 +43,7 @@ export async function getAqiCurrent(city) {
  * Fetch AQI forecast for a city at a specific horizon hour (24, 48, 72).
  */
 export async function getAqiForecast(city, horizonHours = 24) {
-  const url = `${API_BASE_URL}/api/aqi/forecast?city=${encodeURIComponent(city)}&horizon_hours=${horizonHours}`;
+  const url = `${API_URL}/api/aqi/forecast?city=${encodeURIComponent(city)}&horizon_hours=${horizonHours}`;
   return cachedGet(url);
 }
 
@@ -51,7 +51,7 @@ export async function getAqiForecast(city, horizonHours = 24) {
  * Fetch current weather conditions for a city.
  */
 export async function getWeatherCurrent(city) {
-  const url = `${API_BASE_URL}/api/weather/current?city=${encodeURIComponent(city)}`;
+  const url = `${API_URL}/api/weather/current?city=${encodeURIComponent(city)}`;
   return cachedGet(url);
 }
 
@@ -59,7 +59,7 @@ export async function getWeatherCurrent(city) {
  * Fetch vulnerable sites (schools, hospitals) for a city.
  */
 export async function getVulnerableSites(city) {
-  const url = `${API_BASE_URL}/api/vulnerable-sites?city=${encodeURIComponent(city)}`;
+  const url = `${API_URL}/api/vulnerable-sites?city=${encodeURIComponent(city)}`;
   const payload = await cachedGet(url);
   if (Array.isArray(payload)) return payload;
   if (Array.isArray(payload?.sites)) return payload.sites;
@@ -72,7 +72,7 @@ export async function getVulnerableSites(city) {
  * Fetch multilingual health advisory.
  */
 export async function getAdvisory(city, language = 'English') {
-  const url = `${API_BASE_URL}/api/advisory?city=${encodeURIComponent(city)}&language=${encodeURIComponent(language)}`;
+  const url = `${API_URL}/api/advisory?city=${encodeURIComponent(city)}&language=${encodeURIComponent(language)}`;
   const response = await fetch(url);
   return handleResponse(response);
 }
@@ -81,7 +81,7 @@ export async function getAdvisory(city, language = 'English') {
  * Fetch source attribution analysis for a city.
  */
 export async function getAttribution(city) {
-  const url = `${API_BASE_URL}/api/attribution?city=${encodeURIComponent(city)}`;
+  const url = `${API_URL}/api/attribution?city=${encodeURIComponent(city)}`;
   const response = await fetch(url);
   return handleResponse(response);
 }
@@ -90,7 +90,7 @@ export async function getAttribution(city) {
  * Post a Q&A question to the citizen chatbot for a city.
  */
 export async function postChat(question, city) {
-  const url = `${API_BASE_URL}/api/chat`;
+  const url = `${API_URL}/api/chat`;
   const response = await fetch(url, {
     method: 'POST',
     headers: {
