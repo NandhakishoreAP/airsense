@@ -36,6 +36,7 @@ def _build_prompt(
     wind_direction=None,
     nearby_site_count=None,
     nearby_site_types=None,
+    time_context="",
 ):
     site_types_text = ", ".join(nearby_site_types) if nearby_site_types else "not provided"
     wind_speed_text = f"{wind_speed} m/s" if wind_speed is not None else "not provided"
@@ -54,6 +55,7 @@ def _build_prompt(
         "Write 2-3 concise sentences explaining your reasoning. "
         "End your response with exactly one final line in this format: Confidence: Low, Confidence: Moderate, or Confidence: High. "
         "Base the confidence level on how much relevant context was actually provided; if wind data is missing or sparse, lower the confidence. "
+        f"{time_context}\n\n"
         "Respond with ONLY the reasoning text followed by the confidence line. Do not add markdown, headings, bullets, or any extra commentary."
     )
 
@@ -87,6 +89,7 @@ def generate_source_attribution(
     wind_direction=None,
     nearby_site_count=None,
     nearby_site_types=None,
+    time_context="",
 ):
     """Generate a short source-attribution explanation and confidence label."""
     prompt = _build_prompt(
@@ -96,6 +99,7 @@ def generate_source_attribution(
         wind_direction=wind_direction,
         nearby_site_count=nearby_site_count,
         nearby_site_types=nearby_site_types,
+        time_context=time_context,
     )
 
     fallback_message = "Source attribution temporarily unavailable."
@@ -118,7 +122,6 @@ def generate_source_attribution(
                     FALLBACK_MODEL_NAME,
                     first_error,
                 )
-                time.sleep(5)
                 try:
                     fallback_model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
                     response = fallback_model.generate_content(prompt)

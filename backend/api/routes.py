@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Query, HTTPException
 import logging
-from datetime import datetime, timezone
 from pydantic import BaseModel
 
 import config
@@ -9,10 +8,28 @@ from ml.predict import predict_aqi
 from llm.advisory import generate_health_advisory
 from llm.attribution import generate_source_attribution
 from llm.chat import answer_citizen_question
+from utils.freshness import metadata
+from utils.time import iso_now, trusted_context
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+
+def _aqi_category(value):
+    if value is None:
+        return "Unavailable"
+    if value <= 50:
+        return "Good"
+    if value <= 100:
+        return "Moderate"
+    if value <= 150:
+        return "Unhealthy for Sensitive Groups"
+    if value <= 200:
+        return "Unhealthy"
+    if value <= 300:
+        return "Very Unhealthy"
+    return "Hazardous"
 
 
 class ChatRequest(BaseModel):
@@ -39,7 +56,7 @@ def get_aqi_current(city: str = Query(..., description="City name")):
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT city, station_name, latitude, longitude, aqi_value, recorded_at
+            SELECT city, station_name, latitude, longitude, aqi_value, recorded_at, fetched_at
             FROM aqi_readings
             WHERE city = ?
             ORDER BY fetched_at DESC
@@ -57,17 +74,7 @@ def get_aqi_current(city: str = Query(..., description="City name")):
             detail=f"No AQI readings available yet for city '{city}'",
         )
 
-    recorded_at_raw = row[5]
-    try:
-        recorded_at_dt = datetime.fromisoformat(recorded_at_raw)
-        if recorded_at_dt.tzinfo is None:
-            recorded_at_dt = recorded_at_dt.replace(tzinfo=timezone.utc)
-        recorded_at_utc = recorded_at_dt.astimezone(timezone.utc)
-        data_age_hours = round((datetime.now(timezone.utc) - recorded_at_utc).total_seconds() / 3600, 2)
-    except Exception:
-        data_age_hours = None
-
-    is_stale = data_age_hours is not None and data_age_hours > 6
+    freshness = metadata("WAQI", row[5], row[6])
 
     return {
         "city": row[0],
@@ -75,9 +82,11 @@ def get_aqi_current(city: str = Query(..., description="City name")):
         "latitude": row[2],
         "longitude": row[3],
         "aqi_value": row[4],
+        "category": _aqi_category(row[4]),
         "recorded_at": row[5],
-        "data_age_hours": data_age_hours,
-        "is_stale": is_stale,
+        **freshness,
+        "data_age_hours": round(freshness["age_seconds"] / 3600, 2) if freshness["age_seconds"] is not None else None,
+        "is_stale": freshness["freshness"] == "stale",
     }
 
 
@@ -103,6 +112,8 @@ def get_aqi_forecast(
             detail=f"No AQI data available yet for city '{city}', so forecast cannot be generated.",
         )
 
+    result["freshness"] = metadata("ML", result.get("generated_at"), result.get("generated_at"))
+    result["forecast_type"] = "prediction" if result.get("method") == "xgboost_model" else "fallback"
     return result
 
 
@@ -116,7 +127,7 @@ def get_weather_current(city: str = Query(..., description="City name")):
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT city, temperature, wind_speed, wind_direction, humidity, recorded_at
+            SELECT city, temperature, wind_speed, wind_direction, humidity, recorded_at, fetched_at
             FROM weather_readings
             WHERE city = ?
             ORDER BY fetched_at DESC
@@ -141,6 +152,7 @@ def get_weather_current(city: str = Query(..., description="City name")):
         "wind_direction": row[3],
         "humidity": row[4],
         "recorded_at": row[5],
+        **metadata("OpenWeatherMap", row[5], row[6]),
     }
 
 
@@ -175,7 +187,7 @@ def get_vulnerable_sites(city: str = Query(..., description="City name")):
         for row in rows
     ]
 
-    return sites
+    return {"city": city, "sites": sites, "fetched_at": None, "freshness": {"source": "OSM Overpass", "freshness": "unknown", "is_fresh": False}}
 
 
 @router.get("/api/advisory")
@@ -210,7 +222,9 @@ def get_advisory(
         )
 
     aqi_value = row[0]
-    result = generate_health_advisory(city, aqi_value, language)
+    result = generate_health_advisory(city, aqi_value, language, time_context=trusted_context())
+    result["generated_at"] = iso_now()
+    result["data_timestamp"] = "AQI reading timestamp is included in the source response"
     return result
 
 
@@ -294,7 +308,9 @@ def get_attribution(city: str = Query(..., description="City name")):
         wind_direction=wind_direction,
         nearby_site_count=nearby_site_count,
         nearby_site_types=nearby_site_types,
+        time_context=trusted_context(),
     )
+    result["generated_at"] = iso_now()
     return result
 
 
@@ -308,7 +324,7 @@ def post_chat(request: ChatRequest):
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT aqi_value
+            SELECT aqi_value, recorded_at, fetched_at
             FROM aqi_readings
             WHERE city = ?
             ORDER BY fetched_at DESC
@@ -342,5 +358,8 @@ def post_chat(request: ChatRequest):
         city=request.city,
         current_aqi=aqi_value,
         forecast_aqi_24h=forecast_aqi_24h,
+        time_context=trusted_context(),
+        aqi_context={"recorded_at": aqi_row[1], "fetched_at": aqi_row[2]},
+        forecast_context=forecast_result if "forecast_result" in locals() else None,
     )
     return result

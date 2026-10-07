@@ -236,6 +236,7 @@ export default function ForecastPanel({ city, selectedCity }) {
       {method && (
         <div className="panel-subtitle">
           <strong>Forecast method:</strong> {formatMethod(method)}
+          {forecast24?.generated_at && <span> · Generated {new Date(forecast24.generated_at).toLocaleString()}</span>}
         </div>
       )}
 

@@ -113,9 +113,17 @@ def fetch_and_store_weather():
             logger.info(f"Inserted 1 weather reading for {city}")
 
         except requests.exceptions.RequestException as exc:
-            logger.warning(f"Weather request failed for {city}: {exc}")
+            import re
+            err_msg = str(exc)
+            err_msg = re.sub(r'(?:https?://\S*|/\S*)appid=\S*', '[URL REDACTED]', err_msg)
+            err_msg = re.sub(r'appid=[a-zA-Z0-9]+', 'appid=REDACTED', err_msg)
+            logger.warning(f"Weather request failed for {city}: {err_msg}")
         except Exception as exc:
-            logger.warning(f"Error processing {city}: {exc}")
+            import re
+            err_msg = str(exc)
+            err_msg = re.sub(r'(?:https?://\S*|/\S*)appid=\S*', '[URL REDACTED]', err_msg)
+            err_msg = re.sub(r'appid=[a-zA-Z0-9]+', 'appid=REDACTED', err_msg)
+            logger.warning(f"Error processing {city}: {err_msg}")
 
     return results
 

@@ -29,9 +29,10 @@ def _get_model():
         return genai.GenerativeModel(FALLBACK_MODEL_NAME)
 
 
-def generate_health_advisory(city, aqi_value, language="English"):
+def generate_health_advisory(city, aqi_value, language="English", time_context=""):
     """Generate a short practical health advisory for a city and AQI value."""
     prompt = (
+        f"{time_context}\n\n"
         f"You are a public health communicator writing for residents of {city}. "
         f"The current or forecast AQI is {aqi_value}. "
         f"Write a short, practical health advisory in {language}. "
@@ -39,6 +40,7 @@ def generate_health_advisory(city, aqi_value, language="English"):
         "and include specific guidance for vulnerable groups such as people with respiratory conditions, "
         "older adults, and children. Use clear everyday language. "
         "Base your advisory strictly and only on the AQI value provided. Do NOT mention specific times of "
+        "Do not invent dates, timestamps, measurements, or weather conditions. "
         "day (such as morning, evening, or night), specific locations, or any other detail that was not "
         "explicitly given to you in this prompt. Keep all recommendations general in terms of timing — "
         "for example 'reduce prolonged outdoor exertion' rather than referencing any particular hour or period of day. "
@@ -68,7 +70,6 @@ def generate_health_advisory(city, aqi_value, language="English"):
                     FALLBACK_MODEL_NAME,
                     first_error,
                 )
-                time.sleep(5)
                 try:
                     fallback_model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
                     response = fallback_model.generate_content(prompt)

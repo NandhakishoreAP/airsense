@@ -156,16 +156,16 @@ export default function MapView({ city, selectedCity }) {
       .then(([aqi, sites]) => {
         if (isMounted) {
           setAqiData(aqi);
-          setVulnerableSites(sites || []);
-          
+          setVulnerableSites(sites);
+
           // Bug Fix 1: Log counts of each distinct site_type present in raw response
-          const siteCounts = (sites || []).reduce((acc, s) => {
+          const siteCounts = sites.reduce((acc, s) => {
             const rawType = s.site_type || 'unknown';
             acc[rawType] = (acc[rawType] || 0) + 1;
             return acc;
           }, {});
           console.log(`[MapView - Mounting] Distinct site types for ${activeCity}:`, siteCounts);
-          
+
           setLoading(false);
         }
       })
@@ -191,16 +191,16 @@ export default function MapView({ city, selectedCity }) {
     ])
       .then(([aqi, sites]) => {
         setAqiData(aqi);
-        setVulnerableSites(sites || []);
-        
+        setVulnerableSites(sites);
+
         // Bug Fix 1: Log count of distinct site_type in raw response on retry
-        const siteCounts = (sites || []).reduce((acc, s) => {
+        const siteCounts = sites.reduce((acc, s) => {
           const rawType = s.site_type || 'unknown';
           acc[rawType] = (acc[rawType] || 0) + 1;
           return acc;
         }, {});
         console.log(`[MapView - Retry] Distinct site types for ${activeCity}:`, siteCounts);
-        
+
         setLoading(false);
       })
       .catch((err) => {
@@ -233,10 +233,10 @@ export default function MapView({ city, selectedCity }) {
     : defaultCenter;
 
   const totalSitesCount = vulnerableSites.length;
-  
+
   // Bug Fix 4: Split the 300-marker budget proportionally across whichever site_types are present
   const siteTypes = Array.from(new Set(vulnerableSites.map(s => s.site_type || 'unknown')));
-  
+
   const groupedSites = {};
   siteTypes.forEach(t => {
     groupedSites[t] = vulnerableSites.filter(s => (s.site_type || 'unknown') === t);
@@ -250,15 +250,15 @@ export default function MapView({ city, selectedCity }) {
     let remainingBudget = budget;
     let typesLeft = siteTypes.slice();
     const allocated = {};
-    
+
     typesLeft.forEach(t => { allocated[t] = 0; });
-    
+
     let progress = true;
     while (remainingBudget > 0 && typesLeft.length > 0 && progress) {
       progress = false;
       const targetShare = Math.floor(remainingBudget / typesLeft.length);
       const share = targetShare > 0 ? targetShare : 1;
-      
+
       const nextTypesLeft = [];
       for (const t of typesLeft) {
         const available = groupedSites[t].length - allocated[t];
@@ -277,7 +277,7 @@ export default function MapView({ city, selectedCity }) {
       }
       typesLeft = nextTypesLeft;
     }
-    
+
     siteTypes.forEach(t => {
       displaySites.push(...groupedSites[t].slice(0, allocated[t]));
     });

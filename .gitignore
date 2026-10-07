@@ -3,3 +3,6 @@ venv/
 node_modules/
 data/airsense.db
 model.json
+*.log
+__pycache__/
+*.pyc

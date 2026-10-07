@@ -2,8 +2,10 @@ import logging
 import time
 
 import google.generativeai as genai
+import re
 
 import config
+from utils.time import resolve_weekday
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +30,7 @@ def _get_model():
         return genai.GenerativeModel(FALLBACK_MODEL_NAME)
 
 
-def _build_prompt(question, city, current_aqi, forecast_aqi_24h=None):
+def _build_prompt(question, city, current_aqi, forecast_aqi_24h=None, time_context="", aqi_context=None, forecast_context=None):
     forecast_text = (
         f"The 24-hour AQI forecast is {forecast_aqi_24h}."
         if forecast_aqi_24h is not None
@@ -36,20 +38,40 @@ def _build_prompt(question, city, current_aqi, forecast_aqi_24h=None):
     )
 
     return (
+        f"{time_context}\n\n"
+        f"TRUSTED APPLICATION DATA: AQI context={aqi_context or 'not provided'}; forecast context={forecast_context or 'not provided'}.\n"
         f"You are a helpful, concise air quality assistant for {city}. "
         f"The current AQI is {current_aqi}. {forecast_text} "
         f"The citizen asks: {question} "
         "Answer directly and practically using the AQI context provided. "
         "If the question is about outdoor activity, exercise, health precautions, vulnerable groups, or what to do in the specified city, answer in 2-4 sentences using plain everyday language. "
         "If the question is unrelated to air quality, health, or the specified city, politely redirect the person back to air-quality-related questions in exactly 1 sentence instead of answering the unrelated question. "
+        "Do not fabricate environmental measurements, timestamps, dates, weather conditions, or AQI values. If a value is not provided, say it is unavailable. "
         "Do not use markdown, do not repeat the question, and do not include generic disclaimers like 'I'm an AI'."
     )
 
 
-def answer_citizen_question(question, city, current_aqi, forecast_aqi_24h=None):
+def _deterministic_date_answer(question):
+    lowered = question.lower()
+    matches = re.findall(r"\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b", lowered)
+    if not matches or not re.search(r"date|day|tomorrow|today", lowered):
+        return None
+    requested = matches[-1]
+    target = resolve_weekday(requested)
+    if target is None:
+        return None
+    return f"{requested.capitalize()} is {target.strftime('%B %-d, %Y')}."
+
+
+def answer_citizen_question(question, city, current_aqi, forecast_aqi_24h=None, time_context="", aqi_context=None, forecast_context=None):
     """Answer a citizen question using AQI context and city-specific guidance."""
-    prompt = _build_prompt(question, city, current_aqi, forecast_aqi_24h=forecast_aqi_24h)
-    fallback_answer = "I'm having trouble answering right now. Please try again in a moment."
+    deterministic = _deterministic_date_answer(question)
+    prompt = _build_prompt(question, city, current_aqi, forecast_aqi_24h=forecast_aqi_24h, time_context=time_context, aqi_context=aqi_context, forecast_context=forecast_context)
+    fallback_answer = deterministic or "Live language generation is temporarily unavailable. The requested environmental value is unavailable until the relevant source responds."
+
+    date_only = deterministic and not re.search(r"\b(aqi|weather|walk|run|outside|forecast|pollution|safe)\b", question.lower())
+    if date_only:
+        return {"city": city, "question": question, "answer": deterministic, "source": "deterministic_application_logic"}
 
     try:
         model = _get_model()
@@ -68,7 +90,6 @@ def answer_citizen_question(question, city, current_aqi, forecast_aqi_24h=None):
                     FALLBACK_MODEL_NAME,
                     first_error,
                 )
-                time.sleep(5)
                 try:
                     fallback_model = genai.GenerativeModel(FALLBACK_MODEL_NAME)
                     response = fallback_model.generate_content(prompt)
@@ -98,6 +119,7 @@ def answer_citizen_question(question, city, current_aqi, forecast_aqi_24h=None):
             "city": city,
             "question": question,
             "answer": answer_text,
+            "source": "gemini",
         }
     except Exception as exc:
         logger.warning("Citizen question answering failed for %s: %s", city, exc)

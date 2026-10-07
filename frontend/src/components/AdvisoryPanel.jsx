@@ -88,6 +88,7 @@ export default function AdvisoryPanel({ city, selectedCity, language }) {
       <div className="panel-footer-meta">
         <span>Based on AQI Level: <strong style={{ color: 'var(--text-primary)' }}>{advisory.aqi_value}</strong></span>
         <span>Advisory Language: <strong style={{ color: 'var(--text-primary)' }}>{advisory.language}</strong></span>
+        {advisory.generated_at && <span>Generated: <strong style={{ color: 'var(--text-primary)' }}>{new Date(advisory.generated_at).toLocaleString()}</strong></span>}
       </div>
 
       {advisory.error && (

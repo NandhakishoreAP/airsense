@@ -11,6 +11,7 @@ from xgboost import XGBRegressor
 import config
 import database
 from ml.features import build_feature_table
+from utils.time import now
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,7 @@ def predict_aqi(city: str, horizon_hours: int) -> Dict[str, Any]:
 
     model, feature_list = load_model_if_available()
 
+    generated_at = now().isoformat(timespec="seconds")
     if model is None or feature_list is None:
         # naive fallback: return most recent aqi_value from DB
         conn = database.get_connection()
@@ -69,10 +71,10 @@ def predict_aqi(city: str, horizon_hours: int) -> Dict[str, Any]:
 
         if not row:
             logger.info("No AQI data available for %s — returning no_data_available", city)
-            return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": None, "method": "no_data_available"}
+            return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": None, "method": "no_data_available", "generated_at": generated_at}
 
         value = row[0]
-        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": float(value), "method": "naive_fallback_no_model_yet"}
+        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": float(value), "method": "naive_fallback_no_model_yet", "generated_at": generated_at, "target_time": (now() + timedelta(hours=horizon_hours)).isoformat(timespec="seconds"), "input_data_timestamp": row[1]}
 
     # Model is available — construct a feature row matching feature_list
     future_dt = datetime.now(timezone.utc) + timedelta(hours=horizon_hours)
@@ -96,8 +98,8 @@ def predict_aqi(city: str, horizon_hours: int) -> Dict[str, Any]:
             conn.close()
 
         if not row:
-            return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": None, "method": "no_data_available"}
-        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": float(row[0]), "method": "naive_fallback_no_model_yet"}
+            return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": None, "method": "no_data_available", "generated_at": generated_at}
+        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": float(row[0]), "method": "naive_fallback_no_model_yet", "generated_at": generated_at, "target_time": (now() + timedelta(hours=horizon_hours)).isoformat(timespec="seconds"), "input_data_timestamp": row[1]}
 
     # Build dictionary of features
     feat: Dict[str, Any] = {}
@@ -142,10 +144,10 @@ def predict_aqi(city: str, horizon_hours: int) -> Dict[str, Any]:
 
     try:
         pred = model.predict(X_row)[0]
-        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": float(pred), "method": "xgboost_model"}
+        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": float(pred), "method": "xgboost_model", "generated_at": generated_at, "target_time": future_dt.isoformat(timespec="seconds"), "input_data_timestamp": recent.get("recorded_at").isoformat() if hasattr(recent.get("recorded_at"), "isoformat") else None}
     except Exception as e:
         logger.exception("Model prediction failed: %s", e)
-        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": None, "method": "prediction_error"}
+        return {"city": city, "horizon_hours": horizon_hours, "predicted_aqi": None, "method": "prediction_error", "generated_at": generated_at}
 
 
 if __name__ == "__main__":
