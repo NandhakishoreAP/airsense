@@ -9,7 +9,6 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-live%20API-009688.svg)
 ![XGBoost](https://img.shields.io/badge/XGBoost-forecasting-orange.svg)
 ![Gemini](https://img.shields.io/badge/Gemini-3%20AI%20agents-4285F4.svg)
-![Status](https://img.shields.io/badge/status-hackathon%20prototype-lightgrey.svg)
 
 </div>
 
