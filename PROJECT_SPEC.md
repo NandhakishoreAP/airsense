@@ -7,9 +7,9 @@ If something feels missing while building, note it in a file called `IDEAS_FOR_L
 
 ## 1. What this project is
 
-AirSense is an AI-powered urban air quality intelligence platform built for the ET AI Hackathon 2026, Problem Statement 5 ("AI-Powered Urban Air Quality Intelligence for Smart City Intervention"). It fuses live government air quality data, weather data, and open geographic data into a single dashboard that: forecasts AQI 24-72 hours ahead, generates AI health advisories in multiple languages, reasons about likely pollution sources, ranks zones for enforcement priority, and compares multiple cities — all driven by live, real API data, not mock/sample data.
+AirSense is an AI-powered urban air quality intelligence platform. It fuses live government air quality data, weather data, and open geographic data into a single dashboard that: forecasts AQI 24-72 hours ahead, generates AI health advisories in multiple languages, reasons about likely pollution sources, ranks zones for enforcement priority, and compares multiple cities — all driven by live, real API data, not mock/sample data.
 
-Built solo, for a working-prototype hackathon round. Optimized for: correctness, demo-ability, and finishability — not maximum feature count.
+Designed as a focused working system. Optimized for: correctness, usability, and maintainability — not maximum feature count.
 
 ## 2. Final feature list (nothing more, nothing less)
 
@@ -45,12 +45,12 @@ Exactly 3 cities for the full build: **Chennai, Delhi, Bengaluru**. Do not add m
 | Backend | Python 3.11 + FastAPI | Fast to build, great with ML libraries, async-friendly for API calls |
 | ML | XGBoost + pandas + scikit-learn | CPU-only, trains in seconds/minutes, no GPU needed |
 | LLM | Google Gemini API (Gemini Flash, via google-generativeai SDK) | Genuinely free tier, no credit card, generous daily quota — no local model needed, saves your GPU/RAM entirely for other work |
-| Database | SQLite (single file, `airsense.db`) | Zero setup, no server process, perfectly fine for hackathon scale |
+| Database | SQLite (single file, `airsense.db`) | Zero setup, no server process, well suited to this deployment scale |
 | Scheduler | Python `APScheduler` (in-process) | No external cron needed, runs inside the backend process |
 | Frontend | React 18 (Vite) + react-leaflet v4.2.1 (pinned — v5 requires React 19 and is incompatible with this project's React 18) + Chart.js | Fast dev loop, Leaflet is the standard free mapping library |
 | Map tiles | OpenStreetMap tile server (free, no key) | No cost, no signup needed |
 | Data sources | WAQI/aqicn.org API (primary, live CPCB mirror), OpenWeatherMap API, OSM Overpass API | All free, no hardware, generous free tiers. Note: OpenAQ was evaluated first but found to have stale/inactive Indian CPCB station data (most Indian stations last reported 2016-2018); WAQI mirrors CPCB's 586 Indian stations in real time and is used instead. |
-| Hosting (optional, for judge access) | Render.com or Railway free tier | Only needed if you want judges to access it without your laptop running |
+| Hosting (optional, for public access) | Render.com or Railway free tier | Only needed when access is required without the local machine running |
 
 **Nothing in this stack requires your GPU.** Your 4GB NVIDIA card is not a bottleneck for this project — XGBoost and API-based LLMs are both CPU/network bound, not GPU bound. Don't spend time setting up CUDA/GPU acceleration; it's wasted effort here.
 
@@ -133,7 +133,7 @@ airsense/
 
 **Every number shown on the frontend must trace back to a real API call in this diagram. No hardcoded/sample data anywhere in the final build.**
 
-## 8. Evaluation-metric checklist (keep visible, refer back before declaring "done")
+## 8. Delivery checklist (keep visible, refer back before declaring "done")
 
 - [ ] Forecast accuracy shown vs. persistence baseline, on-screen, with a real computed percentage
 - [ ] Source attribution includes a visible confidence score

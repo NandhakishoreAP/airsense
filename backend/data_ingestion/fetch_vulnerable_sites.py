@@ -44,7 +44,7 @@ out center;"""
 
 def _fetch_overpass_json(query):
     headers = {
-        "User-Agent": "AirSense-Hackathon-Project/1.0 (educational use)",
+        "User-Agent": "AirSense/1.0",
         "Accept": "application/json",
     }
 
